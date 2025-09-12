@@ -1,12 +1,12 @@
 import { createContext, Dispatch } from "react";
 
-type Todo = {
+export type Todo = {
     id: number;
     text: string;
     done: boolean;
 };
 
-type TodoContextType = {
+export type TodoContextType = {
     state: Todo[];
     dispatch: Dispatch<any>;
 };
