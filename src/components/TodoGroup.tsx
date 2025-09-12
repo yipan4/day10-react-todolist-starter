@@ -23,12 +23,13 @@ const TodoGroup = () => {
                             text={text}
                             done={done}
                             toggleDone={toggleDone}
+                            dispatch={dispatch}
                         />
                     )
                 })  
             }
         </div>
-            <TodoGenerator onTodoItemSubmit={() => {}}/>
+            <TodoGenerator dispatch={dispatch}/>
         </div>
     )
 }

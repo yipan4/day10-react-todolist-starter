@@ -1,3 +1,14 @@
+.todo-item-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+
+    button {
+        height: auto;
+    }
+}
+
 .todo-item {
     width: 400px;
     border: 1px solid black;
