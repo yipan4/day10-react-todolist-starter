@@ -1,12 +1,12 @@
 import { Dispatch, FormEvent} from 'react';
+import { RemoveAction } from '../reducers/TodoActions';
 
-type RemoveTodoAction = { type: "REMOVE_TODO"; id: number };
 interface TodoItemProps {
     id: number;
     text: string;
     done: boolean;
     toggleDone: (id: number) => void;
-    dispatch: Dispatch<RemoveTodoAction>;
+    dispatch: Dispatch<RemoveAction>;
 }
 
 const TodoItem = (props: TodoItemProps) => {
