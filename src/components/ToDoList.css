@@ -1,12 +1,36 @@
 .todo-item {
-    width: 200px;
+    width: 400px;
     border: 1px solid black;
     padding: 5px;
+    margin-bottom: 10px;
     &.done {
-        text-decoration: line-through
+        text-decoration: line-through;
     }
 }
 
+.todo-list {
+    margin-bottom: 20px;
+}
+
+.todo-generator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+
+    input {
+        padding: 5px;
+        font-size: 16px;
+        width: 300px;
+    }
+
+    button {
+        background-color: cornflowerblue;
+        color: white;
+        font-size: 16px;
+        height: 30px;
+    }
+}
 
 
 .todo-group {
