@@ -1,7 +1,7 @@
 import { useReducer } from "react";
 import './App.css';
 import TodoList from "./components/TodoList";
-import { initialState, todoReducer } from "./reducers/todoReducer";
+import { initialState, todoReducer } from "./reducers/TodoReducer";
 import TodoContext from "./contexts/TodoContext";
 
 function App() {

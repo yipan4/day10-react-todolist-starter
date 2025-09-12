@@ -1,9 +1,8 @@
 import { Dispatch, useState, FormEvent } from "react";
-
-type AddTodoAction = { type: "ADD_TODO"; text: string };
+import { AddAction } from "../reducers/TodoActions";
 
 interface TodoGeneratorProps {
-    dispatch: Dispatch<AddTodoAction>;
+    dispatch: Dispatch<AddAction>;
 }
 
 const TodoGenerator = (props: TodoGeneratorProps) => {
@@ -16,7 +15,7 @@ const TodoGenerator = (props: TodoGeneratorProps) => {
             return;
         }
         dispatch({ type: "ADD_TODO", text });
-        setText(""); // Clear the input field after submission
+        setText("");
     }
 
     return (

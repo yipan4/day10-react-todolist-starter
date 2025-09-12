@@ -1,3 +1,5 @@
+import { AddAction, RemoveAction, DoneAction } from "./TodoActions";
+
 export const initialState = [
     { id: 1, text: "the first todo", done: false },
     { id: 2, text: "the second todo", done: false },
@@ -10,17 +12,7 @@ export interface Todo {
     done: boolean;
 }
 
-export interface DoneAction {
-    type: 'DONE';
-    id: number;
-}
-
-export interface RemoveAction {
-    type: "REMOVE_TODO";
-    id: number;
-}
-
-export type TodoAction = DoneAction | RemoveAction | { type: string };
+export type TodoAction = AddAction | DoneAction | RemoveAction;
 
 export const todoReducer = (state: Todo[], action: TodoAction): Todo[] => {
     switch (action.type) {
