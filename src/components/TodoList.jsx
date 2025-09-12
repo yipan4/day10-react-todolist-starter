@@ -17,11 +17,11 @@ const TodoList = () => {
             state.map(({text, done, id}) => {
                 return (
                 <div 
-                    className={'todo-item'} 
-                    key={text.id}
+                    className={`todo-item ${done ? 'done' : ''}`} 
+                    key={id}
                     onClick={() => toggleDone(id)}
                 >
-                    {text} {done+''}
+                    {text}
                 </div>
                 )
             })  
