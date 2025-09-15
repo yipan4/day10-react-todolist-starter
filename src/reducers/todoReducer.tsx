@@ -13,6 +13,8 @@ export interface Todo {
 
 export type TodoAction = AddAction | DoneAction | RemoveAction;
 
+// const emptyTodo = <div className="todo-item empty">Add Todos to the list</div>;
+
 export const todoReducer = (state: Todo[], action: TodoAction): Todo[] => {
     switch (action.type) {
         case 'DONE':
