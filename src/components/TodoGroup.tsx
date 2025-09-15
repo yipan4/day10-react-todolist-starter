@@ -1,14 +1,14 @@
 import TodoGenerator from "./TodoGenerator";
 import TodoContext from "../contexts/TodoContext";
-import { Dispatch, useContext, useEffect } from "react";
-import { getTodos, updateTodoStatus } from "../apis/api";
+import { useContext, useEffect, useState } from "react";
+import { getTodos, updateTodoStatus, updateTodoText } from "../apis/api";
 import { removeTodo } from "../apis/api";
 
-import { Table, Tag, Button } from 'antd';
+import { Table, Tag, Button, Modal, Input } from 'antd';
 import type { TableProps } from "antd";
-import { RemoveAction, UpdateAction } from "../interfaces/todoActionsInterface";
+import { EditAction, RemoveAction, UpdateAction } from "../interfaces/todoActionsInterface";
 
-import { CheckOutlined, UndoOutlined, DeleteOutlined } from '@ant-design/icons';
+import { CheckOutlined, UndoOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 interface DataType {
     key: number;
@@ -19,21 +19,26 @@ interface DataType {
 
 const TodoGroup = () => {
     const { state, dispatch } = useContext(TodoContext);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [idCache, setIdCache] = useState(0);
+    const [textCache, setTextCache] = useState("");
 
-    const toggleDone = (id: number, dispatch: Dispatch<UpdateAction>) => {
-        const action: UpdateAction = { type: "UPDATE_TODO", id: id, done: !state.find((todo) => todo.id === id)?.done };
-        updateTodoStatus(id, !state.find((todo) => todo.id === id)?.done);
+    const toggleDone = (id: number) => {
+        const done = !state.find((todo) => todo.id === id)?.done;
+        const action: UpdateAction = { type: "UPDATE_TODO", id: id, done };
+        updateTodoStatus(id, done);
         dispatch(action);
     };
 
-    const handleRemove = async (id: number, dispatch: Dispatch<RemoveAction>) => {
+    const handleRemove = async (id: number) => {
         try {
             await removeTodo(id);
         } catch (error) {
             console.error("Failed to remove todo:", error);
             return;
         }
-        dispatch({ type: "REMOVE_TODO", id });
+        const action: RemoveAction = { type: "REMOVE_TODO", id };
+        dispatch(action);
     }
 
     const columns: TableProps<DataType>['columns'] = [
@@ -72,10 +77,17 @@ const TodoGroup = () => {
                             alignContent: 'center',
                         }}
                     >
-                        <Button onClick={() => toggleDone(record.key, dispatch)}>
+                        <Button onClick={() => toggleDone(record.key)}>
                             {record.done ? <UndoOutlined /> : <CheckOutlined />}
                         </Button>
-                        <Button onClick={() => handleRemove(record.key, dispatch)}>
+                        <Button onClick={() => {
+                            setIsModalOpen(true);
+                            setIdCache(record.key);
+                            setTextCache(record.text);
+                        }}>
+                            <EditOutlined />
+                        </Button>
+                        <Button onClick={() => handleRemove(record.key)}>
                             <DeleteOutlined />
                         </Button>
                     </div>
@@ -83,6 +95,25 @@ const TodoGroup = () => {
             ),
         }
     ]
+
+    useEffect(() => {
+        const handleEdit = async (id: number, newText: string) => {
+            try {
+                await updateTodoText(id, newText);
+                const action: EditAction = { type: "EDIT_TODO", id, text: newText };
+                dispatch(action);
+            } catch (error) {
+                console.error("Failed to edit todo:", error);
+                return;
+            } finally {
+                setIdCache(0);
+                setTextCache("");
+            }
+        };
+        if (!isModalOpen) {
+            handleEdit(idCache, textCache);
+        }
+    }, [isModalOpen, idCache, textCache, dispatch]);
 
     useEffect(() => {
         getTodos().then((todos) => {
@@ -102,6 +133,18 @@ const TodoGroup = () => {
                 pagination={{ pageSize: 7 }}
                 style={{ paddingLeft: "5%", paddingRight: "5%" }}
             />
+            <Modal
+                title="Edit Todo Content"
+                open={isModalOpen}
+                onOk={() => { setIsModalOpen(false); }}
+                onCancel={() => setIsModalOpen(false)}
+            >
+                <Input
+                    placeholder="Edit todo content"
+                    value={textCache}
+                    onChange={(e) => setTextCache(e.target.value)}
+                />
+            </Modal>
             <TodoGenerator dispatch={dispatch} />
         </div>
     );

@@ -31,3 +31,8 @@ export const updateTodoStatus = async (id: number, done: boolean) => {
     const response = await instance.put(`/todos/${id}`, {done: done});
     return response;
 }
+
+export const updateTodoText = async (id: number, text: string) => {
+    const response = await instance.put(`/todos/${id}`, {text: text});
+    return response;
+}

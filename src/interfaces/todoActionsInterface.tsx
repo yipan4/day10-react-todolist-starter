@@ -26,3 +26,9 @@ export interface UpdateAction {
     id: number;
     done: boolean;
 }
+
+export interface EditAction {
+    type: "EDIT_TODO";
+    id: number;
+    text: string;
+}
