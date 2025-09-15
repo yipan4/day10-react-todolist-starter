@@ -8,13 +8,15 @@ import ErrorPage from "./pages/ErrorPage";
 import TodoDetail from "./components/TodoDetail";
 
 import { Menu, Layout } from 'antd';
-import { HomeOutlined, TeamOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import { HomeOutlined, TeamOutlined, QuestionCircleOutlined, ZoomInOutlined, CheckCircleOutlined } from "@ant-design/icons";
 
 const { Header, Footer, Content } = Layout;
 
 const headerItems = [
     { key: '/', label: "Home", icon: <HomeOutlined /> },
     { key: '/todos', label: "Todos", icon: <TeamOutlined /> },
+    { key: '/todos/completed', label: "Completed", icon: <CheckCircleOutlined /> },
+    { key: '/todos/search', label: "Todo Detail", icon: <ZoomInOutlined /> },
     { key: '/about', label: "About", icon: <QuestionCircleOutlined /> },
 ]
 
@@ -71,7 +73,11 @@ const routes = [
                 element: <TodoGroup />,
             },
             {
-                path: "todos/:id",
+                path: "todos/completed",
+                element: <h1>Completed Todos Page</h1>,
+            },
+            {
+                path: "todos/search",
                 element: <TodoDetail />,
             },
             {

@@ -9,7 +9,6 @@ import type { TableProps } from "antd";
 import { EditAction, RemoveAction, UpdateAction } from "../interfaces/todoActionsInterface";
 
 import { CheckOutlined, UndoOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { text } from "stream/consumers";
 
 interface DataType {
     key: number;
@@ -23,7 +22,6 @@ const TodoGroup = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [idCache, setIdCache] = useState(0);
     const [textCache, setTextCache] = useState("");
-    const [isUpdated, setIsUpdated] = useState(false);
 
     const toggleDone = (id: number) => {
         const done = !state.find((todo) => todo.id === id)?.done;
@@ -111,26 +109,6 @@ const TodoGroup = () => {
             setTextCache("");
         }
     };
-
-    // useEffect(() => {
-    //     const handleEdit = async (id: number, newText: string) => {
-    //         try {
-    //             await updateTodoText(id, newText);
-    //             const action: EditAction = { type: "EDIT_TODO", id, text: newText };
-    //             dispatch(action);
-    //         } catch (error) {
-    //             console.error("Failed to edit todo:", error);
-    //             return;
-    //         } finally {
-    //             setIdCache(0);
-    //             setTextCache("");
-    //         }
-    //     };
-    //     if (!isUpdated) {
-    //         handleEdit(idCache, textCache);
-    //     }
-    //     setIsUpdated(false);
-    // }, [idCache, textCache, dispatch, isUpdated]);
 
     useEffect(() => {
         getTodos().then((todos) => {

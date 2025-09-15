@@ -1,9 +1,16 @@
 import { useParams } from 'react-router';
 import { fetchTodoDetail } from '../apis/api';
 import { useState, useEffect } from 'react';
+import { Input } from 'antd';
+
+interface TodoDetailProps {
+    id: number;
+    text: string;
+    done: boolean;
+}
 
 const TodoDetail = () => {
-    const [text, setText] = useState("");
+    const [details, setDetails] = useState<TodoDetailProps | null>(null);
     const {id} = useParams();
 
     useEffect(() => {
@@ -13,12 +20,12 @@ const TodoDetail = () => {
         let cancelled = false;
         fetchTodoDetail(id).then((response) => {
             if (!cancelled) {
-                setText(response.data.text);
+                setDetails(response.data);
             }
         })
         .catch(() => {
             if (!cancelled) {
-                setText("");
+                setDetails(null);
             }
         });
 
@@ -26,7 +33,11 @@ const TodoDetail = () => {
     }, [id]);
     
     return (
-        <h1>Todo Detail for ID {id}: {text}</h1>
+        <>
+        // TODO implement the detail page
+            {/* <Input value={text} onChange={(e) => setText(e.target.value)}></Input>
+            <h1>Todo Detail for ID {id}: {text}</h1> */}
+        </>
     );
 }
 
