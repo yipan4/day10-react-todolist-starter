@@ -1,7 +1,8 @@
-import { Dispatch, FormEvent} from 'react';
+import { Dispatch, FormEvent, useState } from 'react';
 import { RemoveAction } from '../interfaces/todoActionsInterface';
 
 import '../styles/ToDoList.css';
+import { removeTodo } from '../apis/api';
 
 interface TodoItemProps {
     id: number;
@@ -12,10 +13,18 @@ interface TodoItemProps {
 }
 
 const TodoItem = (props: TodoItemProps) => {
+    // const [semaphore, setSemaphore] = useState(false);
     const { id, text, done, toggleDone } = props;
 
-    const handleRemove = (event: FormEvent) => {
+    const handleRemove = async (event: FormEvent) => {
         event.preventDefault();
+        try {
+            await removeTodo(id);
+        } catch (error) {
+            console.error("Failed to remove todo:", error);
+            return;
+        }
+       
         props.dispatch({ type: "REMOVE_TODO", id });
     }
 

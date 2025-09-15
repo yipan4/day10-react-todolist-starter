@@ -1,5 +1,6 @@
 import { Dispatch, useState, FormEvent } from "react";
 import { AddAction } from "../interfaces/todoActionsInterface";
+import { addTodo } from "../apis/api";
 
 interface TodoGeneratorProps {
     dispatch: Dispatch<AddAction>;
@@ -9,12 +10,19 @@ const TodoGenerator = (props: TodoGeneratorProps) => {
     const { dispatch } = props; 
     const [text, setText] = useState("");
 
-    const handleSubmit = (event: FormEvent) => {
+    const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         if (text.trim() === "") {
             return;
         }
-        dispatch({ type: "ADD_TODO", text });
+        const newTodo = {
+            text: text,
+            done: false
+        }
+        await addTodo(newTodo).then((response) => {
+            const action: AddAction = { type: "ADD_TODO", text: response.data.text as string, id: response.data.id as number};
+            dispatch(action);
+        });
         setText("");
     }
 

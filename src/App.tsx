@@ -26,6 +26,7 @@ const DefaultLayout = () => {
     )
 };
 
+
 const TodoDetail = () => {
     const {id} = useParams();
     console.log(id);
@@ -61,7 +62,7 @@ const routes = [
 ];
 
 function App() {
-    const [state, dispatch] = useReducer(todoReducer, initialState);
+    const [state, dispatch] = useReducer(todoReducer, []);
 
     const router = createBrowserRouter(routes);
 

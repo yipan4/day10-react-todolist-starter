@@ -1,4 +1,4 @@
-import { AddAction, RemoveAction, DoneAction } from "../interfaces/todoActionsInterface";
+import { AddAction, RemoveAction, DoneAction, LoadAction } from "../interfaces/todoActionsInterface";
 
 export const initialState = [
     { id: 1, text: "the first todo", done: false },
@@ -11,9 +11,7 @@ export interface Todo {
     done: boolean;
 }
 
-export type TodoAction = AddAction | DoneAction | RemoveAction;
-
-// const emptyTodo = <div className="todo-item empty">Add Todos to the list</div>;
+export type TodoAction = AddAction | DoneAction | RemoveAction | LoadAction;
 
 export const todoReducer = (state: Todo[], action: TodoAction): Todo[] => {
     switch (action.type) {
@@ -25,11 +23,13 @@ export const todoReducer = (state: Todo[], action: TodoAction): Todo[] => {
                     return todo;
                 }
             });
+        case 'LOAD_TODO':
+            return [...(action as LoadAction).todos];
         case 'ADD_TODO':
             return [
                 ...state,
-                { id: state.length + 1, text: (action as any).text, done: false }
-            ]
+                { id: (action as any).id, text: (action as any).text, done: false }
+            ];
         case 'REMOVE_TODO':
             return state.filter(todo => todo.id !== (action as RemoveAction).id);
         default:

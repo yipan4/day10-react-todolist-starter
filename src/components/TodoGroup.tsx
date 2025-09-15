@@ -1,8 +1,9 @@
 import TodoGenerator from "./TodoGenerator"
 import TodoContext from "../contexts/TodoContext"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import TodoItem from "./TodoItem";
 import { Todo } from "../contexts/TodoContext";
+import { getTodos } from "../apis/api";
 
 
 const TodoGroup = () => {
@@ -12,6 +13,13 @@ const TodoGroup = () => {
         const action = { type: 'DONE', id: id };
         dispatch(action);
     }
+
+
+    useEffect(() => {
+       getTodos().then((todos) => {
+            dispatch({ type: "LOAD_TODO", todos: todos.data });
+       });
+    }, [])
 
     return (
         <div className={'todo-group'}>
