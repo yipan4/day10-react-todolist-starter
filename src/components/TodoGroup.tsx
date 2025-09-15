@@ -39,13 +39,13 @@ const TodoGroup = () => {
             title: 'ID',
             dataIndex: 'key',
             key: 'key',
-            render: (id) => <a>{id}</a>,
+            render: (id) => <span>{id}</span>,
         },
         {
             title: 'Todo Content',
             dataIndex: 'text',
             key: 'text',
-            render: (text) => <a>{text}</a>,
+            render: (text) => <span>{text}</span>,
         },
         {
             title: 'Status',
@@ -59,14 +59,25 @@ const TodoGroup = () => {
             title: 'Action',
             key: 'action',
             render: (_, record) => (
-                <>
-                    <Button onClick={() => toggleDone(record.key, dispatch)}>
-                        {record.done ? "Undo" : "Complete"}
-                    </Button>
-                    <Button onClick={() => handleRemove(record.key, dispatch)}>
-                        X
-                    </Button>
-                </>
+                <div style={{ position: 'relative', width: '100%', minHeight: 40 }}>
+                    <div
+                        style={{
+                            position: 'absolute',
+                            right: 0,
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            display: 'flex',
+                            gap: '10px'
+                        }}
+                    >
+                        <Button onClick={() => toggleDone(record.key, dispatch)}>
+                            {record.done ? "Undo" : "Complete"}
+                        </Button>
+                        <Button onClick={() => handleRemove(record.key, dispatch)}>
+                            X
+                        </Button>
+                    </div>
+                </div>
             ),
         }
     ]
@@ -80,24 +91,15 @@ const TodoGroup = () => {
     return (
         <div className={"todo-group"}>
             <h1>Todo List</h1>
-            {/* <div className={"todo-list"}>
-                {state.map(({ id, text, done }: Todo) => {
-                    return (
-                        <TodoItem
-                            id={id}
-                            text={text}
-                            done={done}
-                            toggleDone={toggleDone}
-                            dispatch={dispatch}
-                        />
-                    );
-                })}
-            </div> */}
-            <Table columns={columns} dataSource={state.map((todo) => ({
-                key: todo.id,
-                text: todo.text,
-                done: todo.done,
-            }))} />
+            <Table columns={columns}
+                dataSource={state.map((todo) => ({
+                    key: todo.id,
+                    text: todo.text,
+                    done: todo.done,
+                }))}
+                pagination={{ pageSize: 7 }}
+                style={{ paddingLeft: "5%", paddingRight: "5%" }}
+            />
             <TodoGenerator dispatch={dispatch} />
         </div>
     );

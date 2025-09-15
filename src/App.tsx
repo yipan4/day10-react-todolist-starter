@@ -7,22 +7,22 @@ import TodoGroup from "./components/TodoGroup";
 import ErrorPage from "./pages/ErrorPage";
 import TodoDetail from "./components/TodoDetail";
 
-import { Menu, Layout } from 'antd';
+import { Menu, Layout, Divider } from 'antd';
 
 const { Header, Footer, Content } = Layout;
 
 const headerItems = [
-    { key: '/', label: "Home"},
-    { key: '/todos', label: "Todos"},
-    { key: '/about', label: "About"},
+    { key: '/', label: "Home" },
+    { key: '/todos', label: "Todos" },
+    { key: '/about', label: "About" },
 ]
 
 const DefaultLayout = () => {
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
     const location = useLocation();
 
     return (
-        <>  
+        <Layout style={{ minHeight: '100vh' }}>
             <Header
                 className="navigation"
                 style={{ display: 'flex', alignItems: 'center' }}
@@ -35,9 +35,9 @@ const DefaultLayout = () => {
                     selectedKeys={[location.pathname]}
                 >
                     {headerItems.map((item) => (
-                        <Menu.Item 
+                        <Menu.Item
                             key={item.key}
-                            style={{ color: 'white', backgroundColor: '#001529'}}
+                            style={{ color: 'white', backgroundColor: '#001529' }}
                         >{item.label}</Menu.Item>
                     ))}
                 </Menu>
@@ -45,8 +45,11 @@ const DefaultLayout = () => {
             <Content>
                 <Outlet />
             </Content>
-            <Footer>footer copyright</Footer>
-        </>
+            <Divider />
+            <Footer>
+                footer copyright
+            </Footer>
+        </Layout>
     )
 };
 
