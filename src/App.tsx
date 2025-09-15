@@ -4,6 +4,7 @@ import { initialState, todoReducer } from "./reducers/todoReducer";
 import TodoContext from "./contexts/TodoContext";
 import { createBrowserRouter, NavLink, Outlet, RouterProvider } from "react-router";
 import TodoGroup from "./components/TodoGroup";
+import ErrorPage from "./pages/ErrorPage";
 
 const DefaultLayout = () => {
     return (
@@ -12,6 +13,7 @@ const DefaultLayout = () => {
             <nav>
                 <ul>
                     <li><NavLink to="/">Home</NavLink></li>
+                    <li><NavLink to="/todos">Todos</NavLink></li>
                     <li><NavLink to="/about">About</NavLink></li>
                 </ul>
             </nav>
@@ -31,10 +33,12 @@ const routes = [
         children: [
             {
                 path: "",
-                element: <>
-                    <h1>Home Page</h1>
-                    <TodoGroup />
-                </>,
+                element: <h1>Home Page</h1>,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "todos",
+                element: <TodoGroup />,
             },
             {
                 path: "about",
