@@ -21,3 +21,8 @@ export const removeTodo = async (id: number) => {
     const response = await instance.delete(`/todos/${id}`);
     return response;
 }
+
+export const fetchTodoDetail = async (id: string) => {
+    const response = await instance.get(`/todos/${id}`);
+    return response;
+}

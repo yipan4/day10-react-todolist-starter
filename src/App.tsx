@@ -1,10 +1,11 @@
 import { useReducer } from "react";
 import "./App.css";
-import { initialState, todoReducer } from "./reducers/todoReducer";
+import { todoReducer } from "./reducers/todoReducer";
 import TodoContext from "./contexts/TodoContext";
 import { createBrowserRouter, NavLink, Outlet, RouterProvider, useParams } from "react-router";
 import TodoGroup from "./components/TodoGroup";
 import ErrorPage from "./pages/ErrorPage";
+import TodoDetail from "./components/TodoDetail";
 
 const DefaultLayout = () => {
     return (
@@ -27,13 +28,7 @@ const DefaultLayout = () => {
 };
 
 
-const TodoDetail = () => {
-    const {id} = useParams();
-    console.log(id);
-    return (
-        <h1>Todo Detail for ID: {id}</h1>
-    );
-}
+
 
 const routes = [
     {
