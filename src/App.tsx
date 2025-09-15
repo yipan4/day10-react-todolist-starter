@@ -8,13 +8,14 @@ import ErrorPage from "./pages/ErrorPage";
 import TodoDetail from "./components/TodoDetail";
 
 import { Menu, Layout, Divider } from 'antd';
+import { HomeOutlined, TeamOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 
 const { Header, Footer, Content } = Layout;
 
 const headerItems = [
-    { key: '/', label: "Home" },
-    { key: '/todos', label: "Todos" },
-    { key: '/about', label: "About" },
+    { key: '/', label: "Home", icon: <HomeOutlined /> },
+    { key: '/todos', label: "Todos", icon: <TeamOutlined /> },
+    { key: '/about', label: "About", icon: <QuestionCircleOutlined /> },
 ]
 
 const DefaultLayout = () => {
@@ -38,7 +39,7 @@ const DefaultLayout = () => {
                         <Menu.Item
                             key={item.key}
                             style={{ color: 'white', backgroundColor: '#001529' }}
-                        >{item.label}</Menu.Item>
+                        >{item.icon} {item.label}</Menu.Item>
                     ))}
                 </Menu>
             </Header>
