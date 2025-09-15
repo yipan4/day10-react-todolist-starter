@@ -122,7 +122,7 @@ const TodoTableRendering = (pending: boolean) => {
             { pending ? <h1>Pending Todo List</h1> : <h1>Completed Todo List</h1> }
             { pending ? <TodoGenerator dispatch={dispatch} /> : null }
             <Table columns={columns}
-                dataSource={state.map((todo) => ({
+                dataSource={state.map((todo) => ({  
                     key: todo.id,
                     text: todo.text,
                     done: todo.done,

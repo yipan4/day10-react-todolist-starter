@@ -3,7 +3,6 @@ import "./App.css";
 import { todoReducer } from "./reducers/todoReducer";
 import TodoContext from "./contexts/TodoContext";
 import { createBrowserRouter, Outlet, RouterProvider, useNavigate, useLocation } from "react-router";
-import TodoGroup from "./components/TodoGroup";
 import ErrorPage from "./pages/ErrorPage";
 import TodoDetail from "./components/TodoDetail";
 
