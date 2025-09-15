@@ -9,6 +9,8 @@ import TodoDetail from "./components/TodoDetail";
 
 import { Menu, Layout } from 'antd';
 import { HomeOutlined, TeamOutlined, QuestionCircleOutlined, ZoomInOutlined, CheckCircleOutlined } from "@ant-design/icons";
+import TodoCompleted from "./components/TodoCompleted";
+import TodoPending from "./components/TodoPending";
 
 const { Header, Footer, Content } = Layout;
 
@@ -70,11 +72,11 @@ const routes = [
             },
             {
                 path: "todos",
-                element: <TodoGroup />,
+                element: <TodoPending/>,
             },
             {
                 path: "todos/completed",
-                element: <h1>Completed Todos Page</h1>,
+                element: <TodoCompleted/>,
             },
             {
                 path: "todos/search",
