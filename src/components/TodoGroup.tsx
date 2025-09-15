@@ -8,6 +8,8 @@ import { Table, Tag, Button } from 'antd';
 import type { TableProps } from "antd";
 import { RemoveAction, UpdateAction } from "../interfaces/todoActionsInterface";
 
+import { CheckOutlined, UndoOutlined, DeleteOutlined } from '@ant-design/icons';
+
 interface DataType {
     key: number;
     text: string;
@@ -63,18 +65,18 @@ const TodoGroup = () => {
                     <div
                         style={{
                             position: 'absolute',
-                            right: 0,
                             top: '50%',
                             transform: 'translateY(-50%)',
                             display: 'flex',
-                            gap: '10px'
+                            gap: '10px',
+                            alignContent: 'center',
                         }}
                     >
                         <Button onClick={() => toggleDone(record.key, dispatch)}>
-                            {record.done ? "Undo" : "Complete"}
+                            {record.done ? <UndoOutlined /> : <CheckOutlined />}
                         </Button>
                         <Button onClick={() => handleRemove(record.key, dispatch)}>
-                            X
+                            <DeleteOutlined />
                         </Button>
                     </div>
                 </div>

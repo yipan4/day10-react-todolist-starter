@@ -7,7 +7,7 @@ import TodoGroup from "./components/TodoGroup";
 import ErrorPage from "./pages/ErrorPage";
 import TodoDetail from "./components/TodoDetail";
 
-import { Menu, Layout, Divider } from 'antd';
+import { Menu, Layout } from 'antd';
 import { HomeOutlined, TeamOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 
 const { Header, Footer, Content } = Layout;
@@ -43,11 +43,10 @@ const DefaultLayout = () => {
                     ))}
                 </Menu>
             </Header>
-            <Content>
+            <Content style={{ minHeight: '80vh', paddingTop: 20, paddingBottom: 20 }}>
                 <Outlet />
             </Content>
-            <Divider />
-            <Footer>
+            <Footer style={{paddingTop: 0}}>
                 footer copyright
             </Footer>
         </Layout>
