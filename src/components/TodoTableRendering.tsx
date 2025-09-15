@@ -115,7 +115,7 @@ const TodoTableRendering = (pending: boolean) => {
             const filteredTodos = pending ? todos.data.filter((todo: Todo) => !todo.done) : todos.data.filter((todo: Todo) => todo.done);
             dispatch({ type: "LOAD_TODO", todos: filteredTodos });
         });
-    }, [dispatch]);
+    }, [dispatch, pending]);
 
     return (
         <div className={"todo-group"}>

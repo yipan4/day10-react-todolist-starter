@@ -11,6 +11,7 @@ interface TodoDetailProps {
 
 const TodoDetail = () => {
     const [details, setDetails] = useState<TodoDetailProps | null>(null);
+    const [searchId, setSearchId] = useState<number | null>(null);
     const {id} = useParams();
 
     useEffect(() => {
@@ -31,12 +32,38 @@ const TodoDetail = () => {
 
         return () => { cancelled = true;};
     }, [id]);
+
+    const handleSearch = () => {
+        if (searchId === null) {
+            // Todo: messageApi
+        }
+        fetchTodoDetail(String(searchId)).then((response) => {
+            setDetails(response.data);
+        }).catch(() => { 
+            setDetails(null); 
+        }).finally(() => {
+            setSearchId(null);
+        });
+    }
     
     return (
         <>
-        // TODO implement the detail page
-            {/* <Input value={text} onChange={(e) => setText(e.target.value)}></Input>
-            <h1>Todo Detail for ID {id}: {text}</h1> */}
+            <Input 
+                value={details?.text}
+                onChange={(e) => setSearchId(Number(e.target.value))}
+                onSubmit={handleSearch}
+            />
+            { details ? (
+                <div>
+                    <h1>Todo Detail for ID {details.id}</h1>
+                    <p>Text: {details.text}</p>
+                    <p>Status: {details.done ? "Completed" : "Pending"}</p>
+                </div>
+            ) : (
+                <div>
+                    <h1>No Todo Found</h1>
+                </div>
+            )}
         </>
     );
 }
