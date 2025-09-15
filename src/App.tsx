@@ -17,7 +17,7 @@ const headerItems = [
     { key: '/', label: "Home", icon: <HomeOutlined /> },
     { key: '/todos', label: "Todos", icon: <TeamOutlined /> },
     { key: '/todos/completed', label: "Completed", icon: <CheckCircleOutlined /> },
-    { key: '/todos/search', label: "Todo Detail", icon: <ZoomInOutlined /> },
+    { key: '/todos/details', label: "Todo Detail", icon: <ZoomInOutlined /> },
     { key: '/about', label: "About", icon: <QuestionCircleOutlined /> },
 ]
 
@@ -78,7 +78,11 @@ const routes = [
                 element: <TodoCompleted/>,
             },
             {
-                path: "todos/search",
+                path: "todos/details",
+                element: <TodoDetail />,
+            },
+            {
+                path: "todos/details/:id",
                 element: <TodoDetail />,
             },
             {

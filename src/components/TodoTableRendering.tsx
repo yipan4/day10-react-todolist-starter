@@ -4,11 +4,12 @@ import { useContext, useEffect, useState } from "react";
 import { getTodos, updateTodoStatus, updateTodoText } from "../apis/api";
 import { removeTodo } from "../apis/api";
 
-import { Table, Tag, Button, Modal, Input } from 'antd';
+import { Table, Tag, Button, Modal, Input, Tooltip } from 'antd';
 import type { TableProps } from "antd";
 import { EditAction, RemoveAction, UpdateAction } from "../interfaces/todoActionsInterface";
 
-import { CheckOutlined, UndoOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { CheckOutlined, UndoOutlined, DeleteOutlined, EditOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import { useLocation, useNavigate } from "react-router";
 
 interface DataType {
     key: number;
@@ -22,6 +23,8 @@ const TodoTableRendering = (pending: boolean) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [idCache, setIdCache] = useState(0);
     const [textCache, setTextCache] = useState("");
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const toggleDone = (id: number) => {
         const done = !state.find((todo) => todo.id === id)?.done;
@@ -39,7 +42,11 @@ const TodoTableRendering = (pending: boolean) => {
         }
         const action: RemoveAction = { type: "REMOVE_TODO", id };
         dispatch(action);
-    }
+    };
+
+    const viewDetails = (id: number) => {
+        navigate(`/todos/details/${id}`, { state: { background: location } });
+    };
 
     const columns: TableProps<DataType>['columns'] = [
         {
@@ -77,19 +84,30 @@ const TodoTableRendering = (pending: boolean) => {
                             alignContent: 'center',
                         }}
                     >
-                        <Button onClick={() => toggleDone(record.key)}>
-                            {record.done ? <UndoOutlined /> : <CheckOutlined />}
-                        </Button>
-                        <Button onClick={() => {
-                            setIsModalOpen(true);
-                            setIdCache(record.key);
-                            setTextCache(record.text);
-                        }}>
-                            <EditOutlined />
-                        </Button>
-                        <Button onClick={() => handleRemove(record.key)}>
-                            <DeleteOutlined />
-                        </Button>
+                        <Tooltip title={record.done ? "Mark as Pending" : "Mark as Done"}>
+                            <Button onClick={() => toggleDone(record.key)}>
+                                {record.done ? <UndoOutlined /> : <CheckOutlined />}
+                            </Button>
+                        </Tooltip>
+                        <Tooltip title="Edit Todo">
+                            <Button onClick={() => {
+                                setIsModalOpen(true);
+                                setIdCache(record.key);
+                                setTextCache(record.text);
+                            }}>
+                                <EditOutlined />
+                            </Button>
+                        </Tooltip>
+                        <Tooltip title="View details">
+                            <Button onClick={() => viewDetails(record.key)}>
+                                <UnorderedListOutlined />
+                            </Button>
+                        </Tooltip>
+                        <Tooltip title="Delete Todo">
+                            <Button onClick={() => handleRemove(record.key)}>
+                                <DeleteOutlined />
+                            </Button>
+                        </Tooltip>
                     </div>
                 </div>
             ),
@@ -119,10 +137,10 @@ const TodoTableRendering = (pending: boolean) => {
 
     return (
         <div className={"todo-group"}>
-            { pending ? <h1>Pending Todo List</h1> : <h1>Completed Todo List</h1> }
-            { pending ? <TodoGenerator dispatch={dispatch} /> : null }
+            {pending ? <h1>Pending Todo List</h1> : <h1>Completed Todo List</h1>}
+            {pending ? <TodoGenerator dispatch={dispatch} /> : null}
             <Table columns={columns}
-                dataSource={state.map((todo) => ({  
+                dataSource={state.map((todo) => ({
                     key: todo.id,
                     text: todo.text,
                     done: todo.done,
@@ -133,8 +151,8 @@ const TodoTableRendering = (pending: boolean) => {
             <Modal
                 title="Edit Todo Content"
                 open={isModalOpen}
-                onOk={() => { 
-                    setIsModalOpen(false); 
+                onOk={() => {
+                    setIsModalOpen(false);
                     handleEdit();
                 }}
                 onCancel={() => {
