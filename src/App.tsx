@@ -2,28 +2,51 @@ import { useReducer } from "react";
 import "./App.css";
 import { todoReducer } from "./reducers/todoReducer";
 import TodoContext from "./contexts/TodoContext";
-import { createBrowserRouter, NavLink, Outlet, RouterProvider } from "react-router";
+import { createBrowserRouter, Outlet, RouterProvider, useNavigate, useLocation } from "react-router";
 import TodoGroup from "./components/TodoGroup";
 import ErrorPage from "./pages/ErrorPage";
 import TodoDetail from "./components/TodoDetail";
 
+import { Menu, Layout } from 'antd';
+
+const { Header, Footer, Content } = Layout;
+
+const headerItems = [
+    { key: '/', label: "Home"},
+    { key: '/todos', label: "Todos"},
+    { key: '/about', label: "About"},
+]
+
 const DefaultLayout = () => {
+    const navigate = useNavigate(); 
+    const location = useLocation();
+
     return (
-    <>
-        <header className="navigation">
-            <nav>
-                <ul>
-                    <li><NavLink to="/">Home</NavLink></li>
-                    <li><NavLink to="/todos">Todos</NavLink></li>
-                    <li><NavLink to="/about">About</NavLink></li>
-                </ul>
-            </nav>
-        </header>
-        <main>
-            <Outlet />
-        </main>
-        <footer>footer copyright</footer>
-    </>
+        <>  
+            <Header
+                className="navigation"
+                style={{ display: 'flex', alignItems: 'center' }}
+            >
+                <Menu
+                    theme="dark"
+                    mode="horizontal"
+                    style={{ flex: 1 }}
+                    onClick={(event) => navigate(event.key)}
+                    selectedKeys={[location.pathname]}
+                >
+                    {headerItems.map((item) => (
+                        <Menu.Item 
+                            key={item.key}
+                            style={{ color: 'white', backgroundColor: '#001529'}}
+                        >{item.label}</Menu.Item>
+                    ))}
+                </Menu>
+            </Header>
+            <Content>
+                <Outlet />
+            </Content>
+            <Footer>footer copyright</Footer>
+        </>
     )
 };
 

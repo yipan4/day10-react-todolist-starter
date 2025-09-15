@@ -21,7 +21,8 @@ export interface LoadAction {
     todos: Todo[];
 }
 
-export interface RemoveAction {
-    type: "REMOVE_TODO";
+export interface UpdateAction {
+    type: "UPDATE_TODO";
     id: number;
+    done: boolean;
 }
