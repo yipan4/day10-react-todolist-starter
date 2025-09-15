@@ -8,11 +8,10 @@
     "@testing-library/user-event": "^13.5.0",
     "ant-design": "^1.0.0",
     "axios": "^1.12.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-router": "^7.9.1",
-    "react-scripts": "^0.0.0",
-    "typescript": "^5.3.3",
+    "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -31,7 +30,8 @@
     "@types/jest": "^29.5.6",
     "@types/node": "^20.8.7",
     "@types/react": "^18.2.29",
-    "@types/react-dom": "^18.2.14"
+    "@types/react-dom": "^18.2.14",
+    "typescript": "4.9.5"
   },
   "browserslist": {
     "production": [

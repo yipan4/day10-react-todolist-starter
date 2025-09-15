@@ -1,4 +1,4 @@
-import { Dispatch, FormEvent, useState } from 'react';
+import { Dispatch, FormEvent } from 'react';
 import { RemoveAction } from '../interfaces/todoActionsInterface';
 
 import '../styles/ToDoList.css';
@@ -13,7 +13,6 @@ interface TodoItemProps {
 }
 
 const TodoItem = (props: TodoItemProps) => {
-    // const [semaphore, setSemaphore] = useState(false);
     const { id, text, done, toggleDone } = props;
 
     const handleRemove = async (event: FormEvent) => {

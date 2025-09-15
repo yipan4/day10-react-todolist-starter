@@ -26,3 +26,8 @@ export const fetchTodoDetail = async (id: string) => {
     const response = await instance.get(`/todos/${id}`);
     return response;
 }
+
+export const updateTodoStatus = async (id: number, done: boolean) => {
+    const response = await instance.put(`/todos/${id}`, {done: done});
+    return response;
+}
