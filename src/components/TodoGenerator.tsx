@@ -1,5 +1,5 @@
 import { Dispatch, useState, FormEvent } from "react";
-import { AddAction } from "../reducers/TodoActions";
+import { AddAction } from "../interfaces/todoActionsInterface";
 
 interface TodoGeneratorProps {
     dispatch: Dispatch<AddAction>;

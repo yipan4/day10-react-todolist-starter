@@ -1,7 +1,5 @@
 import TodoGroup from "./TodoGroup";
 
-import './ToDoList.css';
-
 const TodoList = () => {
     return (
         <div>

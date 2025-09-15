@@ -1,4 +1,4 @@
-import { AddAction, RemoveAction, DoneAction } from "./TodoActions";
+import { AddAction, RemoveAction, DoneAction } from "../interfaces/todoActionsInterface";
 
 export const initialState = [
     { id: 1, text: "the first todo", done: false },

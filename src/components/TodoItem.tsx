@@ -1,5 +1,7 @@
 import { Dispatch, FormEvent} from 'react';
-import { RemoveAction } from '../reducers/TodoActions';
+import { RemoveAction } from '../interfaces/todoActionsInterface';
+
+import '../styles/ToDoList.css';
 
 interface TodoItemProps {
     id: number;
