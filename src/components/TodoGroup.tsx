@@ -9,6 +9,7 @@ import type { TableProps } from "antd";
 import { EditAction, RemoveAction, UpdateAction } from "../interfaces/todoActionsInterface";
 
 import { CheckOutlined, UndoOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { text } from "stream/consumers";
 
 interface DataType {
     key: number;
@@ -22,6 +23,7 @@ const TodoGroup = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [idCache, setIdCache] = useState(0);
     const [textCache, setTextCache] = useState("");
+    const [isUpdated, setIsUpdated] = useState(false);
 
     const toggleDone = (id: number) => {
         const done = !state.find((todo) => todo.id === id)?.done;
@@ -96,24 +98,39 @@ const TodoGroup = () => {
         }
     ]
 
-    useEffect(() => {
-        const handleEdit = async (id: number, newText: string) => {
-            try {
-                await updateTodoText(id, newText);
-                const action: EditAction = { type: "EDIT_TODO", id, text: newText };
-                dispatch(action);
-            } catch (error) {
-                console.error("Failed to edit todo:", error);
-                return;
-            } finally {
-                setIdCache(0);
-                setTextCache("");
-            }
-        };
-        if (!isModalOpen) {
-            handleEdit(idCache, textCache);
+    const handleEdit = async () => {
+        try {
+            await updateTodoText(idCache, textCache);
+            const action: EditAction = { type: "EDIT_TODO", id: idCache, text: textCache };
+            dispatch(action);
+        } catch (error) {
+            console.error("Failed to edit todo:", error);
+            return;
+        } finally {
+            setIdCache(0);
+            setTextCache("");
         }
-    }, [isModalOpen, idCache, textCache, dispatch]);
+    };
+
+    // useEffect(() => {
+    //     const handleEdit = async (id: number, newText: string) => {
+    //         try {
+    //             await updateTodoText(id, newText);
+    //             const action: EditAction = { type: "EDIT_TODO", id, text: newText };
+    //             dispatch(action);
+    //         } catch (error) {
+    //             console.error("Failed to edit todo:", error);
+    //             return;
+    //         } finally {
+    //             setIdCache(0);
+    //             setTextCache("");
+    //         }
+    //     };
+    //     if (!isUpdated) {
+    //         handleEdit(idCache, textCache);
+    //     }
+    //     setIsUpdated(false);
+    // }, [idCache, textCache, dispatch, isUpdated]);
 
     useEffect(() => {
         getTodos().then((todos) => {
@@ -124,6 +141,7 @@ const TodoGroup = () => {
     return (
         <div className={"todo-group"}>
             <h1>Todo List</h1>
+            <TodoGenerator dispatch={dispatch} />
             <Table columns={columns}
                 dataSource={state.map((todo) => ({
                     key: todo.id,
@@ -131,13 +149,18 @@ const TodoGroup = () => {
                     done: todo.done,
                 }))}
                 pagination={{ pageSize: 7 }}
-                style={{ paddingLeft: "5%", paddingRight: "5%" }}
+                style={{ marginTop: 30, paddingLeft: "5%", paddingRight: "5%" }}
             />
             <Modal
                 title="Edit Todo Content"
                 open={isModalOpen}
-                onOk={() => { setIsModalOpen(false); }}
-                onCancel={() => setIsModalOpen(false)}
+                onOk={() => { 
+                    setIsModalOpen(false); 
+                    handleEdit();
+                }}
+                onCancel={() => {
+                    setIsModalOpen(false);
+                }}
             >
                 <Input
                     placeholder="Edit todo content"
@@ -145,7 +168,6 @@ const TodoGroup = () => {
                     onChange={(e) => setTextCache(e.target.value)}
                 />
             </Modal>
-            <TodoGenerator dispatch={dispatch} />
         </div>
     );
 };
