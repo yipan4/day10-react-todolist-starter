@@ -1,7 +1,7 @@
 import TodoGenerator from "./TodoGenerator";
 import TodoContext, { Todo } from "../contexts/TodoContext";
 import { useContext, useEffect, useState } from "react";
-import { getTodos, updateTodoStatus, updateTodoText } from "../apis/api";
+import { getTodos, updateTodo, updateTodoStatus, updateTodoText } from "../apis/api";
 import { removeTodo } from "../apis/api";
 
 import { Table, Tag, Button, Modal, Input, Tooltip } from 'antd';
@@ -28,8 +28,9 @@ const TodoTableRendering = (pending: boolean) => {
 
     const toggleDone = (id: number) => {
         const done = !state.find((todo) => todo.id === id)?.done;
+        const text = state.find((todo) => todo.id === id)?.text as string;
         const action: UpdateAction = { type: "UPDATE_TODO", id: id, done };
-        updateTodoStatus(id, done);
+        updateTodo(id, text, done);
         dispatch(action);
     };
 
@@ -116,7 +117,8 @@ const TodoTableRendering = (pending: boolean) => {
 
     const handleEdit = async () => {
         try {
-            await updateTodoText(idCache, textCache);
+            const done = state.find((todo) => todo.id === idCache)?.done as boolean;
+            await updateTodo(idCache, textCache, done);
             const action: EditAction = { type: "EDIT_TODO", id: idCache, text: textCache };
             dispatch(action);
         } catch (error) {
@@ -131,7 +133,8 @@ const TodoTableRendering = (pending: boolean) => {
     useEffect(() => {
         getTodos().then((todos) => {
             const filteredTodos = pending ? todos.data.filter((todo: Todo) => !todo.done) : todos.data.filter((todo: Todo) => todo.done);
-            dispatch({ type: "LOAD_TODO", todos: filteredTodos });
+            const orderedTodosDesc = filteredTodos.sort((a: Todo, b: Todo) => b.id - a.id);
+            dispatch({ type: "LOAD_TODO", todos: orderedTodosDesc });
         });
     }, [dispatch, pending]);
 

@@ -24,9 +24,6 @@ const TodoDetail = () => {
                 item.id === Number(id) || String(item.id) === id
             );
 
-            console.log("Looking for todo with ID:", id);
-            console.log("State contains:", state.length, "todos");
-
             if (fromState) {
                 console.log("Found in state:", fromState);
                 setTodo(fromState);
@@ -36,7 +33,6 @@ const TodoDetail = () => {
             try {
                 setLoading(true);
                 const response = await getTodos();
-                console.log("API returned:", response.data.length, "todos");
 
                 const found = response.data.find((item: Todo) =>
                     item.id === Number(id) || String(item.id) === id
@@ -90,7 +86,10 @@ const TodoDetail = () => {
                 {loading ? (
                     <Card>Loading...</Card>
                 ) : todo ? (
-                    <Card title={`Todo #${todo.id}`}>
+                    <Card 
+                        title={`Todo #${todo.id}`}
+                        style={{ marginLeft: "10%", marginRight: "10%" }}
+                    >
                         <p><strong>Text:</strong> {todo.text}</p>
                         <p>
                             <strong>Status:</strong>{" "}

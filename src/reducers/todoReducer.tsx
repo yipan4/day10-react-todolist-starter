@@ -29,7 +29,7 @@ export const todoReducer = (state: Todo[], action: TodoAction): Todo[] => {
             return [
                 ...state,
                 { id: (action as any).id, text: (action as any).text, done: false }
-            ];
+            ].sort((a, b) => b.id - a.id); // Ensure the list is sorted by ID
         case 'REMOVE_TODO':
             return state.filter(todo => todo.id !== (action as RemoveAction).id);
         case 'UPDATE_TODO':
